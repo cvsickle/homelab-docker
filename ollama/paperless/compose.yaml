@@ -1,0 +1,94 @@
+services:
+  # gotenberg service that paperless uses for document conversion
+  gotenberg:
+    image: docker.io/gotenberg/gotenberg:latest
+    container_name: gotenberg
+    environment:
+      - TZ=America/New_York
+    labels:
+      - "autoheal=true"
+      - "com.centurylinklabs.watchtower.scope=true"
+    ports:
+      - "3000:3000"
+    restart: unless-stopped
+    command:
+      - "gotenberg"
+      - "--chromium-disable-javascript=true"
+      - "--chromium-allow-list=file:///tmp/.*"
+  
+  # tika service that paperless uses for document text extraction
+  tika:
+    image: docker.io/apache/tika:latest
+    container_name: tika
+    environment:
+      - TZ=America/New_York
+    labels:
+      - "autoheal=true"
+      - "com.centurylinklabs.watchtower.scope=true"
+    ports:
+      - "9998:9998"
+    restart: unless-stopped
+  
+  # paperless-ai service
+  paperless-ai:
+    image: clusterzx/paperless-ai:latest
+    container_name: paperless-ai
+    env_file:
+      - sops-paperless-ai.env
+    dns:
+      - 10.69.1.2
+      - 10.69.1.3
+    ports:
+      - "3001:3000"
+    environment:
+      - TZ=America/New_York
+      # Paperless
+      - PAPERLESS_API_URL=https://paperless.local.cvsickle.com/api
+      - PAPERLESS_URL=https://paperless.local.cvsickle.com
+    labels:
+      - "autoheal=true"
+      - "com.centurylinklabs.watchtower.scope=true"
+    volumes:
+      - /home/corey/docker/paperless/paperless-ai:/app/data
+    restart: unless-stopped
+  
+  # paperless-gpt service
+  paperless-gpt:
+    image: icereed/paperless-gpt:latest
+    container_name: paperless-gpt
+    env_file:
+      - sops-paperless-gpt.env
+    ports:
+      - "3002:8080"
+    dns:
+      - 10.69.1.2
+      - 10.69.1.3
+    environment:
+      TZ: America/New_York
+      # Paperless
+      PAPERLESS_BASE_URL: https://paperless.local.cvsickle.com
+      PAPERLESS_PUBLIC_URL: https://paperless.cvsickle.com
+      # LLM Config
+      LLM_PROVIDER: openai
+      LLM_MODEL: gpt-oss-task
+      OPENAI_BASE_URL: https://litellm.local.cvsickle.com/v1
+      TOKEN_LIMIT: 1000
+      LLM_LANGUAGE: English
+      # Vision
+      OCR_PROVIDER: llm
+      OCR_PROCESS_MODE: image
+      VISION_LLM_PROVIDER: openai
+      VISION_LLM_MODEL: minicpm-v
+      # Tags
+      AUTO_OCR_TAG: paperless-gpt-ocr-auto
+      AUTO_TAG: paperless-gpt-auto
+      MANUAL_TAG: paperless-gpt-manual
+      PDF_OCR_TAGGING: true
+      PDF_OCR_COMPLETE_TAG: paperless-gpt-ocr-complete
+      PDF_UPLOAD: false
+    labels:
+      - "autoheal=true"
+      - "com.centurylinklabs.watchtower.scope=true"
+    volumes:
+      - /home/corey/docker/paperless/paperless-gpt/prompts:/app/prompts
+    restart: unless-stopped
