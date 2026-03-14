@@ -1,5 +1,5 @@
 # This file controls Docker configs for the Ollama host.
-working_dir: ollama/
+working_dir: ispmon/
 auto_discover: true
 auto_discover_opts:
   depth: 1
