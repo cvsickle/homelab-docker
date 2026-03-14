@@ -1,0 +1,31 @@
+services:
+  speedtest-tracker:
+    image: lscr.io/linuxserver/speedtest-tracker:latest
+    container_name: speedtest-tracker
+    env_file:
+      - sops-secrets.env
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=America/New_York
+      - APP_TIMEZONE=America/New_York
+      - DISPLAY_TIMEZONE=America/New_York
+      - APP_URL=https://isp.cvsickle.com
+      - APP_DEBUG=false
+      - DASHBOARD_POLLING=30s
+      - RESULTS_POLLING=30s
+      - DB_CONNECTION=pgsql
+      - DB_HOST=10.69.1.40
+      - DB_PORT=5435
+      - DB_DATABASE=speedtest_tracker
+      - SPEEDTEST_SCHEDULE=5,20,35,50 * * * *
+      - SPEEDTEST_SERVERS=14228,14229
+      - PRUNE_RESULTS_OLDER_THAN=180
+    labels:
+      - "autoheal=true"
+      - "com.centurylinklabs.watchtower.scope=true"
+    volumes:
+      - /home/corey/docker/speedtest-tracker:/config
+    ports:
+      - 8001:80
+    restart: unless-stopped
