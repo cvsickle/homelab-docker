@@ -1,0 +1,37 @@
+networks:
+  dns-network:
+    driver: macvlan
+    driver_opts:
+      parent: eth0
+    ipam:
+      config:
+        - subnet: ${IP_SUBNET}
+          gateway: ${IP_GATEWAY}
+          ip_range: ${IP_RANGE}
+
+services:
+  pihole-2:
+    container_name: ${NAME_PIHOLE2}
+    hostname: ${NAME_PIHOLE2}
+    #domainname: ${NAME_PIHOLE2}.local
+    image: pihole/pihole:latest
+    networks:
+      dns-network:
+        ipv4_address: ${IP_PIHOLE2}
+        aliases:
+          - ${NAME_PIHOLE2}
+    env_file:
+      - .env
+      - sops-secrets.env
+    ports:
+      - 53:53/tcp
+      - 53:53/udp
+      - 80:80/tcp
+      - 443:443/tcp
+    volumes:
+      - ${DIR_CONFIG}/${NAME_PIHOLE2}/etc-pihole:/etc/pihole
+      - ${DIR_CONFIG}/${NAME_PIHOLE2}/etc-dnsmasq.d:/etc/dnsmasq.d
+    labels:
+      - "autoheal=true"
+      - "com.centurylinklabs.watchtower.scope=true"
+    restart: unless-stopped
