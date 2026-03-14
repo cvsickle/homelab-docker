@@ -1,5 +1,10 @@
-# homelab-docker
-Doco CD configuration for the Docker hosts in my homelab.
+# Doco-CD Deployment
+
+This repository is a Doco-CD deployment for the Docker hosts in my homelab. If you're reading this, and you're not the owner of this homelab, you really shouldn't try to use this repository directly. Feel free to reference the deployment strategy and specifics, but don't try to use them unless you know what you're doing.
+
+- GitHub: [https://github.com/cvsickle/homelab-docker](https://github.com/cvsickle/homelab-docker)
+- Codeberg: [https://codeberg.org/cvsickle/homelab-docker](https://codeberg.org/cvsickle/homelab-docker)
+- Forgejo (Mirror): [https://git.cvsickle.com/cvsickle/homelab-docker](https://git.cvsickle.com/cvsickle/homelab-docker)
 
 # SOPS
 
