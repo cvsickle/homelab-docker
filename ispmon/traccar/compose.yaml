@@ -1,0 +1,20 @@
+services:
+  traccar:
+    image: traccar/traccar:latest
+    container_name: traccar
+    hostname: traccar
+    ports:
+      - 8002:8082     # Traccar UI
+      - 5013:5013     # MT532 TCP
+      - 5013:5013/udp # MT532 UDP
+      - 5030:5030     # tlt2h TCP
+      - 5030:5030/udp # tlt2h UDP
+      - 5055:5055     # Client App TCP
+      - 5055:5055/udp # Client App UDP
+    volumes:
+      - /home/corey/docker/traccar/logs:/opt/traccar/logs:rw
+      - /home/corey/docker/traccar/config/traccar.xml:/opt/traccar/conf/traccar.xml:ro
+    labels:
+      - "autoheal=true"
+      - "com.centurylinklabs.watchtower.scope=true"
+    restart: unless-stopped
