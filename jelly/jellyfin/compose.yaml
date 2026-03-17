@@ -1,0 +1,24 @@
+services:
+  jellyfin:
+    image: jellyfin/jellyfin:latest
+    container_name: jellyfin
+    hostname: tess-jelly
+    user: ${PUID}:${PGID}
+    network_mode: 'host'
+    env_file:
+      - .env
+    labels:
+      - "autoheal=true"
+      - "com.centurylinklabs.watchtower.scope=true"
+    volumes:
+      - ${DIR_CONFIG}/jellyfin/config:/config
+      - ${DIR_CONFIG}/jellyfin/cache:/cache
+      - ${DIR_MEDIA}:/media:ro
+    restart: unless-stopped
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: 1
+              capabilities: [gpu]
