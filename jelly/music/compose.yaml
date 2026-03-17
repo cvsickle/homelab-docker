@@ -1,0 +1,17 @@
+services:
+  navidrome:
+    image: deluan/navidrome:latest
+    container_name: navidrome
+    hostname: tess-jelly
+    user: ${PUID}:${PGID}
+    env_file:
+      - stack.env
+    labels:
+      - "autoheal=true"
+      - "com.centurylinklabs.watchtower.scope=true"
+    ports:
+      - "4533:4533"
+    volumes:
+      - "${DIR_CONFIG}/navidrome:/data"
+      - "${DIR_MEDIA}/music:/music:ro"
+    restart: unless-stopped
