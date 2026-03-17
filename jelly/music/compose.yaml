@@ -5,7 +5,7 @@ services:
     hostname: tess-jelly
     user: ${PUID}:${PGID}
     env_file:
-      - stack.env
+      - .env
     labels:
       - "autoheal=true"
       - "com.centurylinklabs.watchtower.scope=true"
