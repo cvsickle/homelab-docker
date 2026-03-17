@@ -1,0 +1,18 @@
+services:
+  audiobookshelf:
+    image: ghcr.io/advplyr/audiobookshelf:latest
+    container_name: audiobookshelf
+    user: ${PUID}:${PGID}
+    ports:
+      - 13378:80
+    volumes:
+      - ${DIR_MEDIA}/audiobooks:/audiobooks:ro
+      - ${DIR_MEDIA}/podcasts:/podcasts:ro
+      - ${DIR_CONFIG}/audiobookshelf/config:/config
+      - ${DIR_CONFIG}/audiobookshelf/metadata:/metadata
+    environment:
+      - TZ=America/New_York
+    labels:
+      - "autoheal=true"
+      - "com.centurylinklabs.watchtower.scope=true"
+    restart: unless-stopped
