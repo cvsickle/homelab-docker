@@ -20,12 +20,14 @@ sops --age=age1v59tukq0cvskn0ww9dwhh9z4ytgj03u599rtzs8xap83jtm8msssc9z8q7 --encr
 To deploy the apps to a Docker host, create a folder on that host with the following structure:
 
 ```bash
- ├── docker
-     ├── doco-cd
+ └── docker
+     └── doco-cd
          ├── data                # Data folder for repo contents.
          ├── age.agekey          # Age private key for SOPS decryption.
          ├── apprise.txt         # Apprise notification URLs. (optional)
          ├── docker-compose.yaml # Compose file for doco-cd.
+         ├── github.txt          # Text file with GitHub token.
+         └── webhook.txt         # Text file with webhook secret.
 ```
 
 ## Docker Compose
@@ -49,8 +51,8 @@ services:
       - "9120:9120" # Prometheus metrics
     environment:
       TZ: America/New_York
-      GIT_ACCESS_TOKEN: <put_your_token_here>
-      # WEBHOOK_SECRET: xxx
+      GIT_ACCESS_TOKEN_FILE: /run/secrets/github_token
+      WEBHOOK_SECRET_FILE: /run/secrets/webhook_secret
       <<: *poll-config
       SOPS_AGE_KEY_FILE: /run/secrets/sops_age_key
       APPRISE_API_URL: http://apprise:8000/notify # Optional
@@ -58,6 +60,8 @@ services:
       APPRISE_NOTIFY_URLS_FILE: /run/secrets/apprise_urls
     secrets:
       - sops_age_key
+      - github_token
+      - webhook_secret
       - apprise_urls
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
@@ -66,6 +70,9 @@ services:
       - "autoheal=true"                             # Optional if using willfarrell/autoheal
       - "com.centurylinklabs.watchtower.scope=true" # Optional if using nickfedor/watchtower
     restart: unless-stopped
+    depends_on:
+      apprise:
+        condition: service_healthy
     depends_on:
       - apprise # Optional
     healthcheck:
@@ -88,10 +95,20 @@ services:
       - "autoheal=true"                             # Optional if using willfarrell/autoheal
       - "com.centurylinklabs.watchtower.scope=true" # Optional if using nickfedor/watchtower
     restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/status"]
+      start_period: 10s
+      interval: 15s
+      timeout: 5s
+      retries: 3
 
 secrets:
   sops_age_key:
     file: age.agekey
+  github_token:
+    file: github.txt
+  webhook_secret:
+    file: webhook.txt
   apprise_urls:
     file: apprise.txt # Optional
 ```
