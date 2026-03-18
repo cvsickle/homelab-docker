@@ -1,0 +1,25 @@
+services:
+  tdarr:
+    container_name: tdarr
+    image: ghcr.io/haveagitgat/tdarr:latest
+    env_file:
+      - .env
+    ports:
+      - 8265:8265 # webUI port
+      - 8266:8266 # server port
+    volumes:
+      - ${DIR_CONFIG}/tdarr/server:/app/server
+      - ${DIR_CONFIG}/tdarr/configs:/app/configs
+      - ${DIR_CONFIG}/tdarr/logs:/app/logs
+      - ${DIR_MEDIA}/convert:/media
+      - /transcode_cache:/temp
+    restart: unless-stopped
+    devices:
+      - /dev/dri:/dev/dri
+    deploy:
+      resources:
+        reservations:
+          devices:
+          - driver: nvidia
+            count: all
+            capabilities: [gpu]
