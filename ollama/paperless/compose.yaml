@@ -1,3 +1,4 @@
+name: paperless
 services:
   # gotenberg service that paperless uses for document conversion
   gotenberg:
