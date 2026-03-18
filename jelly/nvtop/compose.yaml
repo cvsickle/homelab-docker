@@ -6,8 +6,6 @@ services:
       - TZ=America/New_York
       - NVIDIA_DRIVER_CAPABILITIES=all
       - NVIDIA_VISIBLE_DEVICES=all
-    ports:
-      - 8001:80
     labels:
       - "autoheal=true"
       - "com.centurylinklabs.watchtower.scope=true"
