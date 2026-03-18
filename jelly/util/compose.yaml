@@ -1,3 +1,4 @@
+name: util
 services:
   autoheal:
     image: willfarrell/autoheal:latest
