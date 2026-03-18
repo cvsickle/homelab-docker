@@ -13,6 +13,9 @@ services:
       - ${DIR_CONFIG}/tdarr/logs:/app/logs
       - ${DIR_MEDIA}/convert:/media
       - /transcode_cache:/temp
+    labels:
+      - "autoheal=true"
+      - "com.centurylinklabs.watchtower.scope=true"
     restart: unless-stopped
     devices:
       - /dev/dri:/dev/dri
