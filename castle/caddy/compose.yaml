@@ -1,0 +1,25 @@
+services:
+  caddy:
+    image: caddy:latest
+    restart: unless-stopped
+    container_name: caddy
+    ports:
+      - "80:80"
+      - "443:443"
+      - "443:443/udp"
+      - "2019:2019"
+    volumes:
+      - ${DIR_CONFIG}/caddy/conf:/etc/caddy
+      - ${DIR_CONFIG}/caddy/site:/srv
+      - caddy_data2:/data
+      - caddy_config2:/config
+    dns:
+      - 10.69.1.2
+      - 10.69.1.3
+    labels:
+      - "autoheal=true"
+      - "com.centurylinklabs.watchtower.scope=true"
+
+volumes:
+  caddy_data2:
+  caddy_config2:
