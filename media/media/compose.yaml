@@ -46,7 +46,7 @@ services:
     image: lscr.io/linuxserver/transmission:latest
     container_name: media-transmission
     env_file:
-      - stack.env
+      - .env
     environment:
       - USER=corey
       - PASS=aicacc3VkGet6#J9xpZPV7rckYFMszS7
@@ -62,7 +62,7 @@ services:
     image: lscr.io/linuxserver/jackett:latest
     container_name: media-jackett
     env_file:
-      - stack.env
+      - .env
     environment:
       - AUTO_UPDATE=true
     volumes:
@@ -76,7 +76,7 @@ services:
     image: lscr.io/linuxserver/prowlarr:latest
     container_name: media-prowlarr
     env_file:
-      - stack.env
+      - .env
     volumes:
       - ${DIR_CONFIG}/prowlarr:/config
   
@@ -90,7 +90,7 @@ services:
     image: lscr.io/linuxserver/lidarr:latest
     container_name: media-lidarr
     env_file:
-      - stack.env
+      - .env
     volumes:
       - ${DIR_CONFIG}/lidarr:/config
       - ${DIR_MEDIA}/music:/music
@@ -106,7 +106,7 @@ services:
     image: lscr.io/linuxserver/radarr:latest
     container_name: media-radarr
     env_file:
-      - stack.env
+      - .env
     volumes:
       - ${DIR_CONFIG}/radarr:/config
       - ${DIR_MEDIA}/videos/Movies:/movies
@@ -122,7 +122,7 @@ services:
     image: lscr.io/linuxserver/sonarr:latest
     container_name: media-sonarr
     env_file:
-      - stack.env
+      - .env
     volumes:
       - ${DIR_CONFIG}/sonarr:/config
       - ${DIR_MEDIA}/videos/TV Shows:/tv
@@ -138,7 +138,7 @@ services:
     image: lscr.io/linuxserver/sonarr:latest
     container_name: media-sonarr-kids
     env_file:
-      - stack.env
+      - .env
     volumes:
       - ${DIR_CONFIG}/sonarr-kids:/config
       - ${DIR_MEDIA}/videos/Kid Shows:/tv
@@ -151,7 +151,7 @@ services:
     image: lscr.io/linuxserver/bazarr:latest
     container_name: media-bazarr
     env_file:
-      - stack.env
+      - .env
     volumes:
       - ${DIR_CONFIG}/bazarr:/config
       - ${DIR_MEDIA}/videos/Movies:/movies
