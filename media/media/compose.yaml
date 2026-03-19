@@ -1,0 +1,158 @@
+x-common: &common
+  network_mode: service:wireguard
+  labels:
+    - "autoheal=true"
+    - "com.centurylinklabs.watchtower.scope=true"
+    - "com.centurylinklabs.watchtower.depends-on=media-wireguard"
+  restart: unless-stopped
+  healthcheck:
+    test: curl -s ifconfig.me || exit 1
+    interval: 20s
+    timeout: 5s
+    retries: 2
+    start_period: 15s
+
+services:
+  wireguard:
+    image: qmcgaw/gluetun:latest
+    container_name: media-wireguard
+    cap_add:
+      - NET_ADMIN
+    devices:
+      - /dev/net/tun:/dev/net/tun
+    env_file:
+      - sops-wireguard.env
+    environment:
+      - TZ=America/New_York
+    labels:
+      - "autoheal=true"
+      - "com.centurylinklabs.watchtower.scope=true"
+    ports:
+      - 32779:9117/tcp  # Jackett
+      - 32780:9091/tcp  # Transmission
+      - 32781:8686/tcp  # Lidarr
+      - 32782:7878/tcp  # Radarr
+      - 32783:8989/tcp  # Sonarr
+      - 32784:9696/tcp  # Prowlarr
+      - 32785:6767/tcp  # Bazarr
+      - 32786:8990/tcp  # Sonarr-Kids
+      - 51820:51820/udp # Wireguard
+    restart: unless-stopped
+  
+  transmission:
+    <<: *common
+    depends_on:
+      - wireguard
+    image: lscr.io/linuxserver/transmission:latest
+    container_name: media-transmission
+    env_file:
+      - stack.env
+    environment:
+      - USER=corey
+      - PASS=aicacc3VkGet6#J9xpZPV7rckYFMszS7
+    volumes:
+      - ${DIR_CONFIG}/transmission:/config
+      - ${DIR_MEDIA}/torrents:/downloads
+      - ${DIR_MEDIA}/watch:/watch
+  
+  jackett:
+    <<: *common
+    depends_on:
+      - wireguard
+    image: lscr.io/linuxserver/jackett:latest
+    container_name: media-jackett
+    env_file:
+      - stack.env
+    environment:
+      - AUTO_UPDATE=true
+    volumes:
+      - ${DIR_CONFIG}/jackett:/config
+      - ${DIR_MEDIA}/torrents:/downloads
+    
+  prowlarr:
+    <<: *common
+    depends_on:
+      - wireguard
+    image: lscr.io/linuxserver/prowlarr:latest
+    container_name: media-prowlarr
+    env_file:
+      - stack.env
+    volumes:
+      - ${DIR_CONFIG}/prowlarr:/config
+  
+  lidarr:
+    <<: *common
+    depends_on:
+      - wireguard
+      - jackett
+      - prowlarr
+      - transmission
+    image: lscr.io/linuxserver/lidarr:latest
+    container_name: media-lidarr
+    env_file:
+      - stack.env
+    volumes:
+      - ${DIR_CONFIG}/lidarr:/config
+      - ${DIR_MEDIA}/music:/music
+      - ${DIR_MEDIA}/torrents:/downloads
+  
+  radarr:
+    <<: *common
+    depends_on:
+      - wireguard
+      - jackett
+      - prowlarr
+      - transmission
+    image: lscr.io/linuxserver/radarr:latest
+    container_name: media-radarr
+    env_file:
+      - stack.env
+    volumes:
+      - ${DIR_CONFIG}/radarr:/config
+      - ${DIR_MEDIA}/videos/Movies:/movies
+      - ${DIR_MEDIA}/torrents:/downloads
+  
+  sonarr:
+    <<: *common
+    depends_on:
+      - wireguard
+      - jackett
+      - prowlarr
+      - transmission
+    image: lscr.io/linuxserver/sonarr:latest
+    container_name: media-sonarr
+    env_file:
+      - stack.env
+    volumes:
+      - ${DIR_CONFIG}/sonarr:/config
+      - ${DIR_MEDIA}/videos/TV Shows:/tv
+      - ${DIR_MEDIA}/torrents:/downloads
+  
+  sonarr-kids:
+    <<: *common
+    depends_on:
+      - wireguard
+      - jackett
+      - prowlarr
+      - transmission
+    image: lscr.io/linuxserver/sonarr:latest
+    container_name: media-sonarr-kids
+    env_file:
+      - stack.env
+    volumes:
+      - ${DIR_CONFIG}/sonarr-kids:/config
+      - ${DIR_MEDIA}/videos/Kid Shows:/tv
+      - ${DIR_MEDIA}/torrents:/downloads
+
+  bazarr:
+    <<: *common
+    depends_on:
+      - wireguard
+    image: lscr.io/linuxserver/bazarr:latest
+    container_name: media-bazarr
+    env_file:
+      - stack.env
+    volumes:
+      - ${DIR_CONFIG}/bazarr:/config
+      - ${DIR_MEDIA}/videos/Movies:/movies
+      - ${DIR_MEDIA}/videos/TV Shows:/tv
