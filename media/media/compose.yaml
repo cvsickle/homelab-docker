@@ -36,6 +36,7 @@ services:
       - 32784:9696/tcp  # Prowlarr
       - 32785:6767/tcp  # Bazarr
       - 32786:8990/tcp  # Sonarr-Kids
+      - 32787:8945/tcp  # Pinchflat
       - 51820:51820/udp # Wireguard
     restart: unless-stopped
   
@@ -156,3 +157,16 @@ services:
       - ${DIR_CONFIG}/bazarr:/config
       - ${DIR_MEDIA}/videos/Movies:/movies
       - ${DIR_MEDIA}/videos/TV Shows:/tv
+  
+  pinchflat:
+    <<: *common
+    depends_on:
+      - wireguard
+    image: ghcr.io/kieraneglin/pinchflat:latest
+    container_name: media-pinchflat
+    user: ${PUID}:${PGID}
+    env_file:
+      - .env
+    volumes:
+      - ${DIR_CONFIG}/pinchflat:/config
+      - ${DIR_MEDIA}/youtube/video:/downloads
