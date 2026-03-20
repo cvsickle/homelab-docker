@@ -1,0 +1,13 @@
+services:
+  kiwix:
+    image: ghcr.io/kiwix/kiwix-serve:latest
+    container_name: kiwix
+    user: 1000:10000
+    ports:
+      - 8002:8080
+    volumes:
+      - /mnt/files/nas-monolith/wikipedia/zim:/data
+    labels:
+      - "autoheal=true"
+      - "com.centurylinklabs.watchtower.scope=true"
+    restart: unless-stopped
