@@ -1,0 +1,59 @@
+services:
+  immich-server:
+    container_name: immich-server
+    image: ghcr.io/immich-app/immich-server:${IMMICH_VERSION:-release}
+    volumes:
+      - ${UPLOAD_LOCATION}:/data
+      - ${EXTERNAL_PATH}:/usr/src/app/external
+      - /etc/localtime:/etc/localtime:ro
+    env_file:
+      - .env
+      - sops-secrets.env
+    environment:
+      - NVIDIA_DRIVER_CAPABILITIES=all
+    ports:
+      - 2283:2283
+    labels:
+      - "autoheal=true"
+    depends_on:
+      - redis
+    restart: unless-stopped
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: 1
+              capabilities:
+                - gpu
+                - compute
+                - video
+
+  immich-machine-learning:
+    container_name: immich-machine-learning
+    image: ghcr.io/immich-app/immich-machine-learning:v2.4.1-cuda
+    volumes:
+      - ${DIR_CONFIG}/immich/model-cache:/cache
+    env_file:
+      - .env
+      - sops-secrets.env
+    labels:
+      - "autoheal=true"
+    restart: unless-stopped
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: 1
+              capabilities:
+                - gpu
+
+  redis:
+    container_name: immich-redis
+    image: docker.io/valkey/valkey:9
+    labels:
+      - "autoheal=true"
+    restart: unless-stopped
+    healthcheck:
+      test: redis-cli ping || exit 1
