@@ -36,7 +36,7 @@ services:
       - 32784:9696/tcp  # Prowlarr
       - 32785:6767/tcp  # Bazarr
       - 32786:8990/tcp  # Sonarr-Kids
-      - 32787:8945/tcp  # Pinchflat
+      - 32787:17442/tcp # Youtube-DL
       - 51820:51820/udp # Wireguard
     restart: unless-stopped
   
@@ -158,15 +158,26 @@ services:
       - ${DIR_MEDIA}/videos/Movies:/movies
       - ${DIR_MEDIA}/videos/TV Shows:/tv
   
-  pinchflat:
+  youtube-dl:
     <<: *common
     depends_on:
       - wireguard
-    image: ghcr.io/kieraneglin/pinchflat:latest
-    container_name: media-pinchflat
-    user: ${PUID}:${PGID}
+    image: tzahi12345/youtubedl-material:nightly
+    container_name: media-youtube-dl
     env_file:
       - .env
+      - sops-youtube-dl.env
+    environment:
+      - ytdl_use_local_db=false
+      - write_ytdl_config=true
+      - UID=${PUID}
+      - GID=${PGID}
+      - USER=youtube
+      - NO_UPDATE_NOTIFIER=true
+      - ALLOW_CONFIG_MUTATIONS=true
     volumes:
-      - ${DIR_CONFIG}/pinchflat:/config
-      - ${DIR_MEDIA}/youtube/video:/downloads
+      - ${DIR_CONFIG}/youtube-dl/appdata:/app/appdata
+      - ${DIR_CONFIG}/youtube-dl/subscriptions:/app/subscriptions
+      - ${DIR_MEDIA}/youtube/audio:/app/audio
+      - ${DIR_MEDIA}/youtube/users:/app/users
+      - ${DIR_MEDIA}/youtube/video:/app/video
