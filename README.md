@@ -47,8 +47,8 @@ services:
     container_name: doco-cd
     image: ghcr.io/kimdre/doco-cd:latest
     ports:
-      - "80:80"     # Webhook endpoint
-      - "9120:9120" # Prometheus metrics
+      - "8888:80"   # Webhook endpoint
+      - "9128:9120" # Prometheus metrics
     environment:
       TZ: America/New_York
       GIT_ACCESS_TOKEN_FILE: /run/secrets/github_token
@@ -91,6 +91,10 @@ services:
     environment:
       TZ: America/New_York
       APPRISE_WORKER_COUNT: 1
+    volumes:
+      - apprise_config:/config
+      - apprise_plugin:/plugin
+      - apprise_attach:/attach
     labels:
       - "autoheal=true"                             # Optional if using willfarrell/autoheal
       - "com.centurylinklabs.watchtower.scope=true" # Optional if using nickfedor/watchtower
@@ -111,6 +115,12 @@ secrets:
     file: webhook.txt
   apprise_urls:
     file: apprise.txt # Optional
+
+# Optional if using notification
+volumes:
+  apprise_config:
+  apprise_plugin:
+  apprise_attach:
 ```
 
 ## Apprise 
