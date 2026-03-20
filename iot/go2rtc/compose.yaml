@@ -1,0 +1,22 @@
+services:
+  go2rtc-iot:
+    image: alexxit/go2rtc:master-hardware
+    container_name: go2rtc-iot
+    network_mode: host
+    env_file:
+      - .env
+    volumes:
+      - ${DIR_CONFIG}/go2rtc-iot:/config
+    labels:
+      - "autoheal=true"
+      - "com.centurylinklabs.watchtower=true"
+    restart: unless-stopped
+    devices:
+      - /dev/dri:/dev/dri
+    deploy:
+      resources:
+        reservations:
+          devices:
+          - driver: nvidia
+            count: all
+            capabilities: [gpu]
