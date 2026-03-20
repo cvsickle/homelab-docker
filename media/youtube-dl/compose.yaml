@@ -1,0 +1,21 @@
+services:
+  youtube-dl:
+    image: tzahi12345/youtubedl-material:nightly
+    container_name: youtube-dl
+    env_file:
+      - .env
+      - sops-youtube-dl.env
+    environment:
+      - ytdl_use_local_db=false
+      - write_ytdl_config=true
+      - UID=${PUID}
+      - GID=${PGID}
+      - USER=youtube
+      - NO_UPDATE_NOTIFIER=true
+      - ALLOW_CONFIG_MUTATIONS=true
+    volumes:
+      - ${DIR_CONFIG}/youtube-dl/appdata:/app/appdata
+      - ${DIR_CONFIG}/youtube-dl/subscriptions:/app/subscriptions
+      - ${DIR_MEDIA}/youtube/audio:/app/audio
+      - ${DIR_MEDIA}/youtube/users:/app/users
+      - ${DIR_MEDIA}/youtube/video:/app/video
