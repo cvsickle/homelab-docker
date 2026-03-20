@@ -1,0 +1,12 @@
+services:
+  rclone-x1c:
+    image: rclone/rclone:latest
+    container_name: rclone-x1c
+    entrypoint: "rclone"
+    command: "'move' '--metadata' '--max-age' '24h' '--include' '*.mp4' 'bambuX1c_timelapse:timelapse' '/data'"
+    user: 0:10000
+    volumes:
+      - /etc/group:/etc/group:ro
+      - /etc/passwd:/etc/passwd:ro
+      - ${DIR_CONFIG}/rclone:/config/rclone
+      - ${DIR_TIMELAPSE}/X1C:/data
