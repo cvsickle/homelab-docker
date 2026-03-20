@@ -47,9 +47,7 @@ services:
     container_name: media-transmission
     env_file:
       - .env
-    environment:
-      - USER=corey
-      - PASS=aicacc3VkGet6#J9xpZPV7rckYFMszS7
+      - sops-transmission.env
     volumes:
       - ${DIR_CONFIG}/transmission:/config
       - ${DIR_MEDIA}/torrents:/downloads
