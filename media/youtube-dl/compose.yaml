@@ -4,7 +4,7 @@ services:
     container_name: youtube-dl
     env_file:
       - .env
-      - sops-youtube-dl.env
+      - sops-secrets.env
     environment:
       - ytdl_use_local_db=false
       - write_ytdl_config=true
