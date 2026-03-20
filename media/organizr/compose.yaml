@@ -1,0 +1,14 @@
+services:
+  organizr:
+    image: organizr/organizr:latest
+    container_name: organizr
+    env_file:
+      - .env
+    ports:
+      - 8005:80
+    volumes:
+      - ${DIR_CONFIG}/organizr:/config
+    labels:
+      - "autoheal=true"
+      - "com.centurylinklabs.watchtower.scope=true"
+    restart: unless-stopped
