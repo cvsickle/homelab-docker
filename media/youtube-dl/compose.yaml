@@ -13,9 +13,15 @@ services:
       - USER=youtube
       - NO_UPDATE_NOTIFIER=true
       - ALLOW_CONFIG_MUTATIONS=true
+    ports:
+      - 8998:17442
     volumes:
       - ${DIR_CONFIG}/youtube-dl/appdata:/app/appdata
       - ${DIR_CONFIG}/youtube-dl/subscriptions:/app/subscriptions
       - ${DIR_MEDIA}/youtube/audio:/app/audio
       - ${DIR_MEDIA}/youtube/users:/app/users
       - ${DIR_MEDIA}/youtube/video:/app/video
+    labels:
+      - "autoheal=true"
+      - "com.centurylinklabs.watchtower.scope=true"
+    restart: unless-stopped
