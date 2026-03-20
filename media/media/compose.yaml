@@ -36,7 +36,6 @@ services:
       - 32784:9696/tcp  # Prowlarr
       - 32785:6767/tcp  # Bazarr
       - 32786:8990/tcp  # Sonarr-Kids
-      - 32787:17442/tcp # Youtube-DL
       - 51820:51820/udp # Wireguard
     restart: unless-stopped
   
