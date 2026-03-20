@@ -1,4 +1,4 @@
-# This file controls Docker configs for the Ollama host.
+# This file controls Docker configs for the ISPMon host.
 working_dir: ispmon/
 auto_discover: true
 auto_discover_opts:

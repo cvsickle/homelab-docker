@@ -1,4 +1,4 @@
-# This file controls Docker configs for the Ollama host.
+# This file controls Docker configs for the Files host.
 working_dir: files/
 auto_discover: true
 auto_discover_opts:

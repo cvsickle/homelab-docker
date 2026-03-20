@@ -1,4 +1,4 @@
-# This file controls Docker configs for the Ollama host.
+# This file controls Docker configs for the Jelly host.
 working_dir: jelly/
 auto_discover: true
 auto_discover_opts:
