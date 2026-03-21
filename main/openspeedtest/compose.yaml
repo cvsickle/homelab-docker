@@ -1,0 +1,17 @@
+services:
+  openspeedtest:
+    image: openspeedtest/latest:latest
+    container_name: openspeedtest
+    env_file:
+      - .env
+    ports:
+      - 3010-3011:3000-3001
+    volumes:
+      - openspeedtest_certs:/var/log/letsencrypt
+    labels:
+      - "autoheal=true"
+      - "com.centurylinklabs.watchtower.scope=true"
+    restart: unless-stopped
+
+volumes:
+  openspeedtest_certs:
