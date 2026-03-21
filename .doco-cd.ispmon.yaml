@@ -3,4 +3,3 @@ working_dir: ispmon/
 auto_discover: true
 auto_discover_opts:
   depth: 1
-prune_images: false
