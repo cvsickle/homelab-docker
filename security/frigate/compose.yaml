@@ -1,0 +1,38 @@
+services:
+  frigate:
+    image: ghcr.io/blakeblackshear/frigate:stable-tensorrt
+    container_name: frigate
+    env_file:
+      - sops-secrets.env
+    ports:
+      - "8971:8971"     # Authenticated access.
+      - "5000:5000"     # Internal unauthenticated access. Expose carefully.
+      - "8554:8554"     # RTSP feeds
+      - "8555:8555/tcp" # WebRTC over tcp
+      - "8555:8555/udp" # WebRTC over udp
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - ${DIR_CONFIG}/config:/config
+      - ${DIR_MEDIA}/clips:/media/frigate/clips
+      - ${DIR_MEDIA}/recordings:/media/frigate/recordings
+      - ${DIR_MEDIA}/exports:/media/frigate/exports
+      - type: tmpfs # 1GB of memory, reduces SSD/SD Card wear
+        target: /tmp/cache
+        tmpfs:
+          size: 1000000000
+    labels:
+      - "autoheal=true"
+      - "com.centurylinklabs.watchtower=true"
+    shm_size: "128mb" # May need updated as more cameras are added.
+    devices:
+      - /dev/bus/usb:/dev/bus/usb # USB Coral
+      - /dev/dri:/dev/dri
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: 1
+              capabilities: [gpu]
+    restart: unless-stopped
+    stop_grace_period: 30s
