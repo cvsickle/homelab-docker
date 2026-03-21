@@ -22,7 +22,7 @@ services:
           size: 1000000000
     labels:
       - "autoheal=true"
-      - "com.centurylinklabs.watchtower=true"
+      - "com.centurylinklabs.watchtower.scope=true"
     shm_size: "128mb" # May need updated as more cameras are added.
     devices:
       - /dev/bus/usb:/dev/bus/usb # USB Coral
