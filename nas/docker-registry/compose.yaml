@@ -1,0 +1,12 @@
+services:
+  docker-registry:
+    image: registry:3
+    container_name: docker-registry
+    ports:
+      - 5000:5000
+    volumes:
+      - /volume1/databases/registry/repo:/var/lib/registry
+    labels:
+      - "autoheal=true"
+      - "com.centurylinklabs.watchtower.scope=true"
+    restart: unless-stopped
