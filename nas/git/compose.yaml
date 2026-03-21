@@ -1,0 +1,40 @@
+services:
+  forgejo:
+    image: codeberg.org/forgejo/forgejo:14
+    container_name: forgejo
+    environment:
+      - USER_UID=1053
+      - USER_GID=100
+      - FORGEJO__database__DB_TYPE=postgres
+      - FORGEJO__database__HOST=db:5432
+      - FORGEJO__database__NAME=${DB_DATABASE}
+      - FORGEJO__database__USER=${DB_USERNAME}
+      - FORGEJO__database__PASSWD=${DB_PASSWORD}
+    ports:
+      - 3000:3000
+      - 222:22
+    volumes:
+      - /volume1/databases/forgejo/data:/data
+      - /etc/localtime:/etc/localtime:ro
+    labels:
+      - "autoheal=true"
+      - "com.centurylinklabs.watchtower.scope=true"
+    restart: unless-stopped
+    depends_on:
+      - db
+
+  db:
+    image: postgres:18
+    container_name: db-forgejo-pg18
+    environment:
+      - POSTGRES_USER=${DB_USERNAME}
+      - POSTGRES_PASSWORD=${DB_PASSWORD}
+      - POSTGRES_DB=${DB_DATABASE}
+    ports:
+      - 5438:5432
+    volumes:
+      - /volume1/databases/forgejo/db-pg:/var/lib/postgresql
+    labels:
+      - "autoheal=true"
+      - "com.centurylinklabs.watchtower.scope=true"
+    restart: always
