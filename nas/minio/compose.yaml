@@ -1,0 +1,21 @@
+services:
+  minio:
+    image: quay.io/minio/minio:latest
+    container_name: minio
+    hostname: minio
+    command: server /data --console-address ":9001"
+    user: ${PUID}:${PGID}
+    env_file:
+      - .env
+      - sops-secrets.env
+    ports:
+      - 9100:9000
+      - 9101:9001
+    volumes:
+      - ${DATA_DIR}:/data
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "mc", "ready", "local"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
