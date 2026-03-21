@@ -1,0 +1,5 @@
+# This file controls Docker configs for the Security host.
+working_dir: security/
+auto_discover: true
+auto_discover_opts:
+  depth: 1
