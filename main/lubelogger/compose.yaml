@@ -1,0 +1,16 @@
+services:
+  lubelogger:
+    image: ghcr.io/hargata/lubelogger:latest
+    container_name: lubelogger
+    env_file:
+      - .env
+      - sops-secrets.env
+    volumes:
+      - ${CONFIG_DIR}/data:/App/data
+      - ${CONFIG_DIR}/keys:/root/.aspnet/DataProtection-Keys
+    ports:
+      - 8005:8080
+    labels:
+      - "autoheal=true"
+      - "com.centurylinklabs.watchtower.scope=true"
+    restart: unless-stopped
