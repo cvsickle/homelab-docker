@@ -1,0 +1,25 @@
+services:
+  syncthing:
+    image: syncthing/syncthing:latest
+    container_name: syncthing
+    hostname: syncthing-monolith
+    network_mode: 'host'
+    environment:
+      - PUID=1034
+      - PGID=100
+      - TZ=America/New_York
+      - HOME=/var/syncthing
+      - STHOMEDIR=/config
+      - STGUIADDRESS=0.0.0.0:8384
+    ports:
+      - 8384:8384       # Web UI
+      - 22000:22000/tcp # TCP file transfers
+      - 22000:22000/udp # QUIC file transfers
+      - 21027:21027/udp # Receive local discovery broadcasts
+    volumes:
+      - /volume1/docker/syncthing:/config
+      - /volume1/sync/syncthing:/var/syncthing
+    labels:
+      - "autoheal=true"
+      - "com.centurylinklabs.watchtower.scope=true"
+    restart: unless-stopped
