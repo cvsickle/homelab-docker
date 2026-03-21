@@ -1,0 +1,13 @@
+services:
+  joplin:
+    image: joplin/server:latest
+    container_name: joplin
+    env_file:
+      - .env
+      - sops-secrets.env
+    ports:
+      - 22300:22300
+    labels:
+      - "autoheal=true"
+      - "com.centurylinklabs.watchtower.scope=true"
+    restart: unless-stopped
