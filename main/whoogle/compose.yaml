@@ -1,0 +1,17 @@
+services:
+  whoogle:
+    image: benbusby/whoogle-search:latest
+    container_name: whoogle
+    env_file:
+      - .env
+    ports:
+      - 5000:5000
+    volumes:
+      - whoogle_data:/config
+    labels:
+      - "autoheal=true"
+      - "com.centurylinklabs.watchtower.scope=true"
+    restart: unless-stopped
+
+volumes:
+  whoogle_data:
