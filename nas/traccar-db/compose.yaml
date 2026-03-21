@@ -1,0 +1,15 @@
+services:
+  traccar-db:
+    container_name: traccar-db
+    image: mariadb:lts
+    user: 1042:100
+    env_file:
+      - sops-secrets.env
+    volumes:
+      - ${DB_DATA_LOCATION}/db-mdb:/var/lib/mysql
+    ports:
+      - 3309:3306
+    labels:
+      - "autoheal=true"
+      - "com.centurylinklabs.watchtower.scope=true"
+    restart: unless-stopped
