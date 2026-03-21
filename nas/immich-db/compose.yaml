@@ -9,7 +9,7 @@ services:
       DB_STORAGE_TYPE: 'HDD'
     shm_size: 128mb
     volumes:
-      - ${DB_DATA_LOCATION}:/var/lib/postgresql/data
+      - /volume1/databases/immich/db:/var/lib/postgresql/data
     ports:
       - 5434:5432
     labels:
