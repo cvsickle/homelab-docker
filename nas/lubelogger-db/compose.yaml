@@ -1,0 +1,16 @@
+services:
+  lubelogger-db:
+    image: postgres:14
+    container_name: lubelogger-db
+    env_file:
+      - sops-secrets.env
+    volumes:
+      - ${DB_DATA_LOCATION}/init.sql:/docker-entrypoint-initdb.d/init.sql
+      - ${DB_DATA_LOCATION}/db-pg14:/var/lib/postgresql/data
+      - /etc/localtime:/etc/localtime:ro
+    ports:
+      - 5437:5432
+    labels:
+      - "autoheal=true"
+      - "com.centurylinklabs.watchtower.scope=true"
+    restart: unless-stopped
