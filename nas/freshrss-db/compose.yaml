@@ -1,0 +1,15 @@
+services:
+  freshrss-db:
+    image: mariadb:lts
+    container_name: freshrss-db
+    user: ${PUID}:${PGID}
+    env_file:
+      - sops-secrets.env
+    ports:
+      - 3308:3306
+    volumes:
+      - ${DB_DATA_LOCATION}/db-mdb:/var/lib/mysql
+    labels:
+      - "autoheal=true"
+      - "com.centurylinklabs.watchtower.scope=true"
+    restart: unless-stopped
