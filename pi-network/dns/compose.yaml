@@ -61,4 +61,7 @@ services:
     labels:
       - "autoheal=true"
       - "com.centurylinklabs.watchtower.scope=true"
+    depends_on:
+      pihole-1:
+        condition: service_healthy
     restart: unless-stopped
