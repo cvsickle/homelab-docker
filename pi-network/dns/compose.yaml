@@ -1,0 +1,64 @@
+networks:
+  dns-network:
+    driver: macvlan
+    driver_opts:
+      parent: eth0
+    ipam:
+      config:
+        - subnet: ${IP_SUBNET}
+          gateway: ${IP_GATEWAY}
+          ip_range: ${IP_RANGE}
+
+services:
+  pihole-1:
+    container_name: ${NAME_PIHOLE1}
+    hostname: ${NAME_PIHOLE1}
+    domainname: ${NAME_PIHOLE1}.local
+    image: pihole/pihole:latest
+    networks:
+      dns-network:
+        ipv4_address: ${IP_PIHOLE1}
+        aliases:
+          - ${NAME_PIHOLE1}
+    env_file:
+      - .env
+      - sops-secrets.env
+    ports:
+      - 53:53/tcp
+      - 53:53/udp
+      - 80:80/tcp
+      - 443:443/tcp
+    volumes:
+      - ${DIR_CONFIG}/${NAME_PIHOLE1}/etc-pihole:/etc/pihole
+      - ${DIR_CONFIG}/${NAME_PIHOLE1}/etc-dnsmasq.d:/etc/dnsmasq.d
+    labels:
+      - "autoheal=true"
+      - "com.centurylinklabs.watchtower.scope=true"
+    restart: unless-stopped
+
+  pihole-sync:
+    container_name: ${NAME_PIHOLE_SYNC}
+    hostname: ${NAME_PIHOLE_SYNC}
+    domainname: ${NAME_PIHOLE_SYNC}.local
+    image: ghcr.io/lovelaze/nebula-sync:latest
+    networks:
+      dns-network:
+        ipv4_address: ${IP_PIHOLE_SYNC}
+        aliases:
+          - ${NAME_PIHOLE_SYNC}
+    env_file:
+      - .env
+      - sops-secrets.env
+    environment:
+      - FULL_SYNC=false
+      - RUN_GRAVITY=false
+      - CRON=*/15 * * * *
+      - SYNC_CONFIG_DNS=true
+      - SYNC_GRAVITY_AD_LIST=true
+      - SYNC_GRAVITY_AD_LIST_BY_GROUP=true
+      - SYNC_GRAVITY_DOMAIN_LIST=true
+      - SYNC_GRAVITY_DOMAIN_LIST_BY_GROUP=true
+    labels:
+      - "autoheal=true"
+      - "com.centurylinklabs.watchtower.scope=true"
+    restart: unless-stopped
