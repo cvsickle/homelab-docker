@@ -1,0 +1,14 @@
+services:
+  peanut:
+    image: brandawg93/peanut:latest
+    container_name: peanut
+    env_file:
+      - .env
+    ports:
+      - 8002:8080
+    volumes:
+      - ${DIR_CONFIG}/peanut:/config
+    labels:
+      - "autoheal=true"
+      - "com.centurylinklabs.watchtower.scope=true"
+    restart: unless-stopped
