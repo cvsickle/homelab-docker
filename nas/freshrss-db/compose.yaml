@@ -2,6 +2,7 @@ services:
   freshrss-db:
     image: mariadb:lts
     container_name: freshrss-db
+    command: "'mariadbd' '--character-set-server=utf8mb4' '--collation-server=utf8mb4_bin'"
     user: ${PUID}:${PGID}
     env_file:
       - sops-secrets.env
