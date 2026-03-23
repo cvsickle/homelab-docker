@@ -1,0 +1,15 @@
+services:
+  youtube-db:
+    image: mongo:4
+    container_name: youtube-db
+    user: ${PUID}:${PGID}
+    ports:
+      - 8081:8081
+      - 27017:27017
+    volumes:
+      - ${DB_DATA_LOCATION}/db:/data/db
+      - ${DB_DATA_LOCATION}/configdb:/configdb
+    labels:
+      - "autoheal=true"
+      - "com.centurylinklabs.watchtower.scope=true"
+    restart: unless-stopped
