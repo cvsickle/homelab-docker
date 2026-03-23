@@ -1,0 +1,12 @@
+services:
+  maintenance-page:
+    image: csana/maintenance:latest
+    container_name: maintenance-page
+    ports:
+      - 8010:80
+    volumes:
+      - ${DIR_CONFIG}/maintenance/page.html
+    labels:
+      - "autoheal=true"
+      - "com.centurylinklabs.watchtower.scope=true"
+    restart: unless-stopped
