@@ -87,7 +87,7 @@ services:
     image: caronc/apprise:latest
     container_name: apprise
     ports:
-      - "8000:8000"
+      - "8889:8000"
     environment:
       TZ: America/New_York
       APPRISE_WORKER_COUNT: 1
