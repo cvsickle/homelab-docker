@@ -12,6 +12,8 @@ services:
     labels:
       - "autoheal=true"
       - "com.centurylinklabs.watchtower.scope=true"
+    depends_on:
+      - db
     restart: unless-stopped
   
   db:
