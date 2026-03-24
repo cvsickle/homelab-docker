@@ -51,7 +51,7 @@ services:
   
   hawser:
     image: ghcr.io/finsys/hawser:latest
-    container_name: hawser
+    container_name: util-hawser
     env_file:
       - sops-hawser.env
     ports:
