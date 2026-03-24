@@ -5,7 +5,7 @@ services:
     ports:
       - 8010:80
     volumes:
-      - ${DIR_CONFIG}/maintenance/page.html
+      - ${DIR_CONFIG}/maintenance/page.html:/usr/share/nginx/html/index.html
     labels:
       - "autoheal=true"
       - "com.centurylinklabs.watchtower.scope=true"
