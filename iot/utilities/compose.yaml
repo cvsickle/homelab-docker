@@ -48,6 +48,20 @@ services:
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock:ro # Mounted as read-only
     restart: unless-stopped
+  
+  hawser:
+    image: ghcr.io/finsys/hawser:latest
+    container_name: hawser
+    env_file:
+      - sops-hawser.env
+    ports:
+      - 2376:2376
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    labels:
+      - "autoheal=true"
+      - "com.centurylinklabs.watchtower.scope=true"
+    restart: unless-stopped
 
   portainer:
     image: portainer/agent:latest
