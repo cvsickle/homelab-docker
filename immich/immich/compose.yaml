@@ -31,7 +31,7 @@ services:
 
   immich-machine-learning:
     container_name: immich-machine-learning
-    image: ghcr.io/immich-app/immich-machine-learning:${IMMICH_VERSION:-release}
+    image: ghcr.io/immich-app/immich-machine-learning:v2.4.1-cuda
     volumes:
       - ${DIR_CONFIG}/immich/model-cache:/cache
     env_file:
