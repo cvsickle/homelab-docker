@@ -1,4 +1,5 @@
 # This file controls Docker configs for the Main host.
+name: main
 working_dir: main/
 auto_discover: true
 auto_discover_opts:
