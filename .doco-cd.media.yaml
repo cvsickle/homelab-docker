@@ -1,4 +1,5 @@
 # This file controls Docker configs for the Media host.
+name: media
 working_dir: media/
 auto_discover: true
 auto_discover_opts:
