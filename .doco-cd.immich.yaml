@@ -1,6 +1,6 @@
 # This file controls Docker configs for the Immich host.
 working_dir: immich/
-auto_discover: true
-auto_discover_opts:
+auto_discovery:
+  enabled: true
   depth: 1
 prune_images: false

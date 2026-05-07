@@ -1,5 +1,5 @@
 # This file controls Docker configs for the Network Pi host.
 working_dir: pi-network/
-auto_discover: true
-auto_discover_opts:
+auto_discovery:
+  enabled: true
   depth: 1
