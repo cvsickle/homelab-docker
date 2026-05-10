@@ -26,6 +26,9 @@ services:
       - LOG_LEVEL=info
       - LOG_CALLER=hidden
       - SHOUTRRR_ADDRESSES=
+    dns:
+      - 1.1.1.1
+      - 9.9.9.9
     ports:
       - 8001:8000/tcp
     volumes:
