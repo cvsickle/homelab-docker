@@ -3,5 +3,4 @@ working_dir: media/
 auto_discovery:
   enabled: true
   depth: 1
-reconciliation:
-  enabled: false
+reconciliation: false
