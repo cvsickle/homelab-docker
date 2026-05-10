@@ -3,3 +3,4 @@ working_dir: castle/
 auto_discovery:
   enabled: true
   depth: 1
+reconciliation: false
