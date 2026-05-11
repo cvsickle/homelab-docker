@@ -1,4 +1,5 @@
 # This file controls Docker configs for the NAS host.
+name: nas
 working_dir: nas/
 auto_discovery:
   enabled: true

@@ -1,4 +1,5 @@
 # This file controls Docker configs for the ISPMon host.
+name: ispmon
 working_dir: ispmon/
 auto_discovery:
   enabled: true

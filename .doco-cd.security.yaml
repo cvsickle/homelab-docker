@@ -1,4 +1,5 @@
 # This file controls Docker configs for the Security host.
+name: security
 working_dir: security/
 auto_discovery:
   enabled: true

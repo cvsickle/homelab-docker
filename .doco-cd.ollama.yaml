@@ -1,4 +1,5 @@
 # This file controls Docker configs for the Ollama host.
+name: ollama
 working_dir: ollama/
 auto_discovery:
   enabled: true

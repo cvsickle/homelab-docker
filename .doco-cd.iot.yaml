@@ -1,4 +1,5 @@
 # This file controls Docker configs for the IoT host.
+name: iot
 working_dir: iot/
 auto_discovery:
   enabled: true

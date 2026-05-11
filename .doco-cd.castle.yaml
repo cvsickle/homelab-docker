@@ -1,6 +1,8 @@
 # This file controls Docker configs for the Castle host.
+name: castle
 working_dir: castle/
 auto_discovery:
   enabled: true
   depth: 1
-reconciliation: false
+reconciliation:
+  enabled: false

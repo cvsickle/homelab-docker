@@ -1,4 +1,5 @@
 # This file controls Docker configs for the Jelly host.
+name: jelly
 working_dir: jelly/
 auto_discovery:
   enabled: true

@@ -1,4 +1,5 @@
 # This file controls Docker configs for the Immich host.
+name: immich
 working_dir: immich/
 auto_discovery:
   enabled: true

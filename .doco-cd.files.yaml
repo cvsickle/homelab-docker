@@ -1,4 +1,5 @@
 # This file controls Docker configs for the Files host.
+name: files
 working_dir: files/
 auto_discovery:
   enabled: true
