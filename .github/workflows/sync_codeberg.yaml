@@ -13,7 +13,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: "Checkout"
-        uses: actions/checkout@v2
+        uses: actions/checkout@v6
         with:
           fetch-depth: 0
       - name: "Gather facts"
@@ -22,7 +22,7 @@ jobs:
           echo "  CODEBURG_PUSH_URL: ${{ vars.CODEBURG_BASE_URL }}${{ vars.CODEBURG_REPO }}.git"
           echo "  CODEBURG_USERNAME: ${{ vars.CODEBURG_USERNAME }}"
       - name: "Sync repo"
-        uses: spyoungtech/mirror-action@master
+        uses: yesolutions/mirror-action@v0.7.0
         with:
           REMOTE: "${{ vars.CODEBURG_BASE_URL }}${{ vars.CODEBURG_REPO }}.git"
           GIT_USERNAME: ${{ vars.CODEBURG_USERNAME }}
