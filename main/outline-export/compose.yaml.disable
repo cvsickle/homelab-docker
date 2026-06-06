@@ -6,8 +6,5 @@ services:
     env_file:
       - .env
       - sops-secrets.env
-    dns:
-      - 10.69.1.2
-      - 10.69.1.3
     volumes:
       - ${DIR_CONFIG}/outline-export:/export
