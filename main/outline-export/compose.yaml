@@ -2,6 +2,7 @@ services:
   outline-export:
     image: ghcr.io/lrstanley/outline-export:latest
     container_name: outline-export
+    user: 1000:1000
     command: outline-export
     env_file:
       - .env
