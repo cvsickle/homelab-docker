@@ -1,6 +1,6 @@
 services:
   outline-export:
-    image: ghcr.io/lrstanley/outline-expo:latest
+    image: ghcr.io/lrstanley/outline-export:latest
     container_name: outline-export
     command: >
       outline-export \
