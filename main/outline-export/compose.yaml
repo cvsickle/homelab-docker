@@ -4,10 +4,10 @@ services:
     container_name: outline-export
     command: >
       outline-export \
-      --url "https://wiki.cvsickle.com" \
-      --export-path "/export/" \
+      --url="https://wiki.cvsickle.com" \
+      --export-path="/export/" \
       --extract \
-      --format markdown
+      --format=markdown
     env_file:
       - sops-secrets.env
     volumes:
