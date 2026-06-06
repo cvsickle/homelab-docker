@@ -2,13 +2,9 @@ services:
   outline-export:
     image: ghcr.io/lrstanley/outline-export:latest
     container_name: outline-export
-    command: >
-      outline-export \
-      --url="https://wiki.cvsickle.com" \
-      --export-path="/export/" \
-      --extract \
-      --format=markdown
+    command: outline-export
     env_file:
+      - .env
       - sops-secrets.env
     volumes:
       - ${DIR_CONFIG}/outline-export:/export
