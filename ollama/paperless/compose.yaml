@@ -71,7 +71,7 @@ services:
       PAPERLESS_PUBLIC_URL: https://paperless.cvsickle.com
       # LLM Config
       LLM_PROVIDER: openai
-      LLM_MODEL: gpt-oss-task
+      LLM_MODEL: ornith
       OPENAI_BASE_URL: https://litellm.local.cvsickle.com/v1
       TOKEN_LIMIT: 1000
       LLM_LANGUAGE: English
