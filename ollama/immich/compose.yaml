@@ -31,7 +31,7 @@ services:
 
   immich-machine-learning:
     container_name: immich-machine-learning
-    image: ghcr.io/immich-app/immich-machine-learning:${IMMICH_VERSION:-release}
+    image: ghcr.io/immich-app/immich-machine-learning:${IMMICH_VERSION:-release}-cuda
     volumes:
       - ${DIR_CONFIG}/immich/model-cache:/cache
     env_file:
@@ -48,6 +48,8 @@ services:
               count: 1
               capabilities:
                 - gpu
+                - compute
+                - video
 
   redis:
     container_name: immich-redis
