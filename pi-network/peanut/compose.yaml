@@ -1,6 +1,6 @@
 services:
   peanut:
-    image: brandawg93/peanut:latest
+    image: brandawg93/peanut:5.22.0
     container_name: peanut
     env_file:
       - .env
