@@ -1,0 +1,26 @@
+{
+	"name": "homelab-docker Tools",
+	"runArgs": ["--name=homelab-docker-tools"],
+	"build": {
+		"dockerfile": "Dockerfile",
+		"args": {
+			"SOPS_VERSION": "3.13.3"
+		}
+	},
+    "mounts": [
+        {
+            "source": "${localEnv:HOME}${localEnv:USERPROFILE}/.ssh",
+            "target": "/home/vscode/.ssh",
+            "type": "bind"
+        },
+        {
+            "source": "${localEnv:HOME}${localEnv:USERPROFILE}/.gitconfig",
+            "target": "/home/vscode/.gitconfig",
+            "type": "bind"
+        }
+    ],
+    "remoteUser": "vscode",
+    "containerEnv": {
+        "SOPS_AGE_KEY_FILE": "/home/vscode/.ssh/age.agekey"
+    }
+}
