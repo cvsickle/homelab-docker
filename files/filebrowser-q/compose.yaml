@@ -10,4 +10,3 @@ services:
     volumes:
       - /home/corey/docker/filebrowser-q:/home/filebrowser/data
       - /mnt/files:/files
-    restart: unless-stopped
