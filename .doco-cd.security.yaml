@@ -4,3 +4,5 @@ working_dir: security/
 auto_discovery:
   enabled: true
   depth: 1
+reconciliation:
+  enabled: false

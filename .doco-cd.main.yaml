@@ -4,5 +4,3 @@ working_dir: main/
 auto_discovery:
   enabled: true
   depth: 1
-reconciliation:
-  enabled: false
