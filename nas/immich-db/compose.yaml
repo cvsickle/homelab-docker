@@ -15,3 +15,5 @@ services:
     labels:
       - "autoheal=true"
     restart: unless-stopped
+    healthcheck:
+      disable: true
