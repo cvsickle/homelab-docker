@@ -6,16 +6,17 @@ This repository is a [Doco-CD](https://github.com/kimdre/doco-cd) deployment for
 - Codeberg: [https://codeberg.org/cvsickle/homelab-docker](https://codeberg.org/cvsickle/homelab-docker)
 - Forgejo (Mirror): [https://git.cvsickle.com/cvsickle/homelab-docker](https://git.cvsickle.com/cvsickle/homelab-docker)
 
-# SOPS
+## SOPS
 
 This repository uses Mozilla Secret OperationS (SOPS) to encrypt secrets.
 
 To encrypt an env file:
+
 ```bash
 sops --encrypt secrets.env > sops-secrets.env
 ```
 
-# Bootstrap
+## Bootstrap
 
 To deploy the apps to a Docker host, create a folder on that host with the following structure:
 
@@ -123,7 +124,7 @@ volumes:
   apprise_attach:
 ```
 
-## Apprise 
+## Apprise
 
 See [Notifications](https://github.com/kimdre/doco-cd/wiki/Notifications).
 
