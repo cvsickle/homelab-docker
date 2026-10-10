@@ -3,7 +3,7 @@ services:
     image: willfarrell/autoheal:latest
     container_name: util-autoheal
     volumes:
-      - '/var/run/docker.sock:/var/run/docker.sock'
+      - "/var/run/docker.sock:/var/run/docker.sock"
     environment:
       - TZ=America/New_York
       - AUTOHEAL_CONTAINER_LABEL=all
@@ -48,7 +48,7 @@ services:
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock:ro # Mounted as read-only
     restart: unless-stopped
-  
+
   hawser:
     image: ghcr.io/finsys/hawser:latest
     container_name: util-hawser
@@ -58,7 +58,11 @@ services:
       - 2376:2376
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
+      - hawser-data:/usr/local/bin/hawser
     labels:
       - "autoheal=true"
       - "com.centurylinklabs.watchtower.scope=true"
     restart: unless-stopped
+
+volumes:
+  hawser-data:
