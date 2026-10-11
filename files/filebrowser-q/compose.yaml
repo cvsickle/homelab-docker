@@ -1,6 +1,6 @@
 services:
   filebrowser-q:
-    image: ghcr.io/gtsteffaniak/filebrowser:beta
+    image: ghcr.io/gtsteffaniak/filebrowser:2-stable
     container_name: filebrowser-q
     user: "1000:10000"
     environment:
@@ -10,3 +10,7 @@ services:
     volumes:
       - /home/corey/docker/filebrowser-q:/home/filebrowser/data
       - /mnt/files:/files
+    labels:
+      - "autoheal=true"
+      - "com.centurylinklabs.watchtower.scope=true"
+    restart: unless-stopped
