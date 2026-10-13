@@ -1,6 +1,6 @@
 services:
   minio:
-    image: quay.io/minio/minio:latest
+    image: git.cvsickle.com/mirrors/minio:latest
     container_name: minio
     hostname: minio
     command: server /data --console-address ":9001"
