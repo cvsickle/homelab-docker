@@ -53,6 +53,8 @@ services:
     environment:
       TZ: America/New_York
       GIT_ACCESS_TOKEN_FILE: /run/secrets/github_token
+      GIT_AUTH_DOMAINS: |
+        - domains: [github.com]
       WEBHOOK_SECRET_FILE: /run/secrets/webhook_secret
       <<: *poll-config
       SOPS_AGE_KEY_FILE: /run/secrets/sops_age_key
