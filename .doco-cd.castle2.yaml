@@ -1,0 +1,6 @@
+# This file controls Docker configs for the Castle host.
+name: castle2
+working_dir: castle2/
+auto_discovery:
+  enabled: true
+  depth: 1
