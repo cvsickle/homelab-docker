@@ -2,8 +2,6 @@ services:
   autoheal:
     image: willfarrell/autoheal:latest
     container_name: util-autoheal
-    userns_mode: keep-id
-    user: "1000:1000"
     security_opt:
       - label=disable
     volumes:
@@ -22,8 +20,6 @@ services:
   watchtower:
     image: nickfedor/watchtower:latest
     container_name: util-watchtower
-    userns_mode: keep-id
-    user: "1000:1000"
     security_opt:
       - label=disable
     environment:
@@ -43,8 +39,6 @@ services:
   dockerproxy:
     image: ghcr.io/tecnativa/docker-socket-proxy:latest
     container_name: util-docker-socket-proxy
-    userns_mode: keep-id
-    user: "1000:1000"
     security_opt:
       - label=disable
     environment:
@@ -64,8 +58,6 @@ services:
   hawser:
     image: ghcr.io/finsys/hawser:latest
     container_name: util-hawser
-    userns_mode: keep-id
-    user: "1000:1000"
     security_opt:
       - label=disable
     env_file:
@@ -82,8 +74,6 @@ services:
   ha-dockermon:
     image: philhawthorne/ha-dockermon:latest
     container_name: ha-dockermon
-    userns_mode: keep-id
-    user: "1000:1000"
     security_opt:
       - label=disable
     ports:
