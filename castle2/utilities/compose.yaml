@@ -70,18 +70,3 @@ services:
       - "autoheal=true"
       - "com.centurylinklabs.watchtower.scope=true"
     restart: unless-stopped
-
-  ha-dockermon:
-    image: philhawthorne/ha-dockermon:latest
-    container_name: ha-dockermon
-    security_opt:
-      - label=disable
-    ports:
-      - 8126:8126
-    volumes:
-      - /run/user/1000/podman/podman.sock:/var/run/docker.sock
-      - /home/corey/podman/ha-dockermon:/config
-    labels:
-      - "autoheal=true"
-      - "com.centurylinklabs.watchtower.scope=true"
-    restart: unless-stopped
